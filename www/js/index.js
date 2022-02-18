@@ -26,11 +26,16 @@ function addTask(){
 }
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
-
+    let taskid=0;
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     //document.getElementById('deviceready').classList.add('ready');
     $("#addbutton").click(function(){
         let taskInput = $("#newtask").val();
-        $("#llista").append('<li><a href="#'+taskInput+'">'+taskInput+'</a></li>');
+        $("#llista").append('<li id="task'+taskid+'">'+taskInput+'<button id="borrar'+taskid+'">- BORRAR</button></li>');
+        $("#borrar"+taskid).click(function(){
+            $("#task"+taskid).remove();
+        });
+        $(".ui-listview").listview("refresh");
+        taskid=taskid+1;
     });
 }
