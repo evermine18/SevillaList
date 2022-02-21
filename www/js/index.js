@@ -26,12 +26,27 @@ function addTask(){
 }
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
+    let tasks=[];
     let taskid=0;
+    if (localStorage.getItem("tasks")!=null){
+        tasks=JSON.parse(localStorage.getItem("tasks"));
+        for (let i = 0;i<tasks.length;i++){
+            //alert(tasks[i]);
+            $("#llista").append('<li id="task">'+tasks[i]+'<button id="borrar">- BORRAR</button></li>');
+        }
+        $(".ui-listview").listview("refresh");
+    }
+
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     //document.getElementById('deviceready').classList.add('ready');
+    
+    
     $("#addbutton").click(function(){
         let taskInput = $("#newtask").val();
         $("#llista").append('<li id="task'+taskid+'">'+taskInput+'<button id="borrar'+taskid+'">- BORRAR</button></li>');
+        tasks.push(taskInput);
+        localStorage.setItem("tasks",JSON.stringify(tasks));
+        alert(tasks);
         $("#borrar"+taskid).click(function(){
             $("#task"+taskid).remove();
         });
