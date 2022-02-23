@@ -32,7 +32,15 @@ function onDeviceReady() {
         tasks=JSON.parse(localStorage.getItem("tasks"));
         for (let i = 0;i<tasks.length;i++){
             //alert(tasks[i]);
-            $("#llista").append('<li id="task">'+tasks[i]+'<button id="borrar">- BORRAR</button></li>');
+            $("#llista").append('<li id="'+i+'">'+tasks[i]+'<button id="borrar'+i+'">- BORRAR</button></li>');
+            $("#borrar"+i).click(function(){
+                //alert($(this).attr("id"));
+                $(this).parent().remove();
+                alert(parseInt($(this).parent().attr("id")));
+                tasks.pop(parseInt($(this).parent().attr("id")));
+                localStorage.setItem("tasks",JSON.stringify(tasks));
+            });
+            taskid=taskid+1;
         }
         $(".ui-listview").listview("refresh");
     }
@@ -43,12 +51,15 @@ function onDeviceReady() {
     
     $("#addbutton").click(function(){
         let taskInput = $("#newtask").val();
-        $("#llista").append('<li id="task'+taskid+'">'+taskInput+'<button id="borrar'+taskid+'">- BORRAR</button></li>');
+        $("#llista").append('<li id="'+taskid+'">'+taskInput+'<button id="borrar'+taskid+'">- BORRAR</button></li>');
         tasks.push(taskInput);
         localStorage.setItem("tasks",JSON.stringify(tasks));
         alert(tasks);
         $("#borrar"+taskid).click(function(){
-            $("#task"+taskid).remove();
+            $(this).parent().remove();
+            alert(parseInt($(this).parent().attr("id")));
+            tasks.pop(parseInt($(this).parent().attr("id")));
+            localStorage.setItem("tasks",JSON.stringify(tasks));
         });
         $(".ui-listview").listview("refresh");
         taskid=taskid+1;
